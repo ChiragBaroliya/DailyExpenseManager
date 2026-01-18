@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using DailyExpenseManager.Application.Expenses.Commands;
 using DailyExpenseManager.Application.Incomes.Commands;
 using DailyExpenseManager.API.Models;
+using DailyExpenseManager.Application.Expenses.Queries;
+using DailyExpenseManager.Infrastructure.Mongo.Repositories;
 
 namespace DailyExpenseManager.API.Controllers;
 
@@ -56,5 +58,49 @@ public class FinanceController : ControllerBase
     {
         await _mediator.Send(new DeleteIncomeCommand(id));
         return Ok(APIResponse.SuccessResponse(message: "Income deleted successfully."));
+    }
+
+    // --- Reports ---
+    [HttpGet("report/daily-monthly")]
+    public async Task<IActionResult> GetDailyMonthlyReport([FromQuery] string familyGroupId, [FromQuery] DateTime start, [FromQuery] DateTime end)
+    {
+        var result = await _mediator.Send(new DailyMonthlyReportQuery(familyGroupId, start, end));
+        return Ok(APIResponse.SuccessResponse(result));
+    }
+
+    [HttpGet("report/category-wise")]
+    public async Task<IActionResult> GetCategoryWiseReport([FromQuery] string familyGroupId, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
+    {
+        var result = await _mediator.Send(new CategoryWiseReportQuery(familyGroupId, start, end));
+        return Ok(APIResponse.SuccessResponse(result));
+    }
+
+    [HttpGet("report/member-wise")]
+    public async Task<IActionResult> GetMemberWiseReport([FromQuery] string familyGroupId, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
+    {
+        var result = await _mediator.Send(new MemberWiseReportQuery(familyGroupId, start, end));
+        return Ok(APIResponse.SuccessResponse(result));
+    }
+
+    // --- Charts ---
+    [HttpGet("chart/pie-category")]
+    public async Task<IActionResult> GetPieCategoryChart([FromQuery] string familyGroupId, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
+    {
+        var result = await _mediator.Send(new CategoryWiseReportQuery(familyGroupId, start, end));
+        return Ok(APIResponse.SuccessResponse(result));
+    }
+
+    [HttpGet("chart/bar-monthly")]
+    public async Task<IActionResult> GetBarMonthlyChart([FromQuery] string familyGroupId, [FromQuery] int year)
+    {
+        var result = await _mediator.Send(new MonthlyExpenseBarChartQuery(familyGroupId, year));
+        return Ok(APIResponse.SuccessResponse(result));
+    }
+
+    [HttpGet("chart/line-trend")]
+    public async Task<IActionResult> GetLineTrendChart([FromQuery] string familyGroupId, [FromQuery] DateTime start, [FromQuery] DateTime end)
+    {
+        var result = await _mediator.Send(new ExpenseTrendLineChartQuery(familyGroupId, start, end));
+        return Ok(APIResponse.SuccessResponse(result));
     }
 }
