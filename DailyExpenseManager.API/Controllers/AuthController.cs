@@ -18,6 +18,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [Route("register")]
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
     {
@@ -33,6 +34,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [Route("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
     {

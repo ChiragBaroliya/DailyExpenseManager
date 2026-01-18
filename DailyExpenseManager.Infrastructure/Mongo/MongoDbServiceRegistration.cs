@@ -19,6 +19,7 @@ public static class MongoDbServiceRegistration
         services.AddSingleton<IMongoClient>(_ => new MongoClient(settings.ConnectionString));
         services.AddScoped(sp => sp.GetRequiredService<IMongoClient>().GetDatabase(settings.DatabaseName));
         services.AddScoped<Repositories.IUserRepository, Repositories.UserRepository>();
+        services.AddScoped<Repositories.ICategoryRepository, Repositories.CategoryRepository>();
         return services;
     }
 }

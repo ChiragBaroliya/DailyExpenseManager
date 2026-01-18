@@ -84,6 +84,7 @@ builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IFamilyGroupRepository, FamilyGroupRepository>();
 builder.Services.AddScoped<IMonthlyBudgetRepository, MonthlyBudgetRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

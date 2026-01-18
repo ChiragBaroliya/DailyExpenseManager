@@ -11,6 +11,7 @@ namespace DailyExpenseManager.API.Controllers;
 public class AdminController : ControllerBase
 {
     [HttpGet("secure-data")]
+    [Route("secure-data")]
     public IActionResult GetSecureData()
     {
         return Ok(APIResponse.SuccessResponse("This is admin-only data."));

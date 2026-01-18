@@ -20,7 +20,8 @@ namespace DailyExpenseManager.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
+        [Route("")]
         public IActionResult Get()
         {
             var data = Enumerable.Range(1, 5).Select(index => new WeatherForecast

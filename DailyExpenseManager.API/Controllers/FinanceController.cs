@@ -22,6 +22,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpPost("expense")]
+    [Route("expense")]
     public async Task<IActionResult> AddExpense([FromBody] AddExpenseCommand command)
     {
         var id = await _mediator.Send(command);
@@ -29,6 +30,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpPut("expense")]
+    [Route("expense")]
     public async Task<IActionResult> EditExpense([FromBody] EditExpenseCommand command)
     {
         await _mediator.Send(command);
@@ -36,6 +38,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpDelete("expense/{id}")]
+    [Route("expense/{id}")]
     public async Task<IActionResult> DeleteExpense(string id)
     {
         await _mediator.Send(new DeleteExpenseCommand(id));
@@ -43,6 +46,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpPost("income")]
+    [Route("income")]
     public async Task<IActionResult> AddIncome([FromBody] AddIncomeCommand command)
     {
         var id = await _mediator.Send(command);
@@ -50,6 +54,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpPut("income")]
+    [Route("income")]
     public async Task<IActionResult> EditIncome([FromBody] EditIncomeCommand command)
     {
         await _mediator.Send(command);
@@ -57,6 +62,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpDelete("income/{id}")]
+    [Route("income/{id}")]
     public async Task<IActionResult> DeleteIncome(string id)
     {
         await _mediator.Send(new DeleteIncomeCommand(id));
@@ -65,6 +71,7 @@ public class FinanceController : ControllerBase
 
     // --- Reports ---
     [HttpGet("report/daily-monthly")]
+    [Route("report/daily-monthly")]
     public async Task<IActionResult> GetDailyMonthlyReport([FromQuery] string familyGroupId, [FromQuery] DateTime start, [FromQuery] DateTime end)
     {
         var result = await _mediator.Send(new DailyMonthlyReportQuery(familyGroupId, start, end));
@@ -72,6 +79,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpGet("report/category-wise")]
+    [Route("report/category-wise")]
     public async Task<IActionResult> GetCategoryWiseReport([FromQuery] string familyGroupId, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
     {
         var result = await _mediator.Send(new CategoryWiseReportQuery(familyGroupId, start, end));
@@ -79,6 +87,7 @@ public class FinanceController : ControllerBase
     }
 
     [HttpGet("report/member-wise")]
+    [Route("report/member-wise")]
     public async Task<IActionResult> GetMemberWiseReport([FromQuery] string familyGroupId, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
     {
         var result = await _mediator.Send(new MemberWiseReportQuery(familyGroupId, start, end));
