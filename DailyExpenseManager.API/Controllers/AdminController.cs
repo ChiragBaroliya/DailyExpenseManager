@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using DailyExpenseManager.API.Models;
 
 namespace DailyExpenseManager.API.Controllers;
 
@@ -12,6 +13,6 @@ public class AdminController : ControllerBase
     [HttpGet("secure-data")]
     public IActionResult GetSecureData()
     {
-        return Ok("This is admin-only data.");
+        return Ok(APIResponse.SuccessResponse("This is admin-only data."));
     }
 }
