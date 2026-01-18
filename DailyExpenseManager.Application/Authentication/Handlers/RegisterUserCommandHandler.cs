@@ -25,7 +25,14 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
         if (existing != null)
             throw new Exception("Email already registered");
 
-        var user = new User { Email = request.Email };
+        var user = new User
+        {
+            Email = request.Email,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            DateOfBirth = request.DateOfBirth,
+            Role = UserRole.User // Default role
+        };
         user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
         await _userRepository.AddAsync(user);
         return _jwtTokenGenerator.GenerateToken(user);

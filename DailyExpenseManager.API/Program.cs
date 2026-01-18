@@ -11,6 +11,7 @@ using DailyExpenseManager.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using DailyExpenseManager.API.Middleware;
+using DailyExpenseManager.Infrastructure.Mongo.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +77,12 @@ builder.Services.AddAuthentication(options =>
 // Register password hasher and JWT generator
 builder.Services.AddScoped<Microsoft.AspNetCore.Identity.IPasswordHasher<DailyExpenseManager.Domain.Entities.User>, Microsoft.AspNetCore.Identity.PasswordHasher<DailyExpenseManager.Domain.Entities.User>>();
 builder.Services.AddScoped<DailyExpenseManager.Application.Authentication.IJwtTokenGenerator, DailyExpenseManager.Application.Authentication.JwtTokenGenerator>();
+
+// Register repositories
+builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.AddScoped<IFamilyGroupRepository, FamilyGroupRepository>();
+builder.Services.AddScoped<IMonthlyBudgetRepository, MonthlyBudgetRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
