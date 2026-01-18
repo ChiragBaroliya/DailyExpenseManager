@@ -2,6 +2,7 @@ using DailyExpenseManager.Application.Authentication.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using DailyExpenseManager.API.Models; // Added for APIResponse
 
 namespace DailyExpenseManager.API.Controllers;
 
@@ -20,15 +21,29 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
     {
-        var jwt = await _mediator.Send(command);
-        return Ok(new { token = jwt });
+        try
+        {
+            var jwt = await _mediator.Send(command);
+            return Ok(APIResponse.SuccessResponse(new { token = jwt }, "Registration successful"));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(APIResponse.ErrorResponse("Registration failed", new List<string> { ex.Message }));
+        }
     }
 
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
     {
-        var jwt = await _mediator.Send(command);
-        return Ok(new { token = jwt });
+        try
+        {
+            var jwt = await _mediator.Send(command);
+            return Ok(APIResponse.SuccessResponse(new { token = jwt }, "Login successful"));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(APIResponse.ErrorResponse("Login failed", new List<string> { ex.Message }));
+        }
     }
 }

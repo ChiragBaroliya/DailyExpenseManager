@@ -1,12 +1,14 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using DailyExpenseManager.Application.FamilyGroups.Commands;
 using DailyExpenseManager.API.Models;
+using DailyExpenseManager.Application.FamilyGroups.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DailyExpenseManager.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class FamilyGroupsController : ControllerBase
 {
     private readonly IMediator _mediator;

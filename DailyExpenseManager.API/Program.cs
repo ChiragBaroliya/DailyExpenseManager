@@ -6,17 +6,18 @@ using System.Text;
 using Serilog;
 using AutoMapper;
 using DailyExpenseManager.API.Mapping;
-using DotNetEnv;
 using DailyExpenseManager.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using DailyExpenseManager.API.Middleware;
 using DailyExpenseManager.Infrastructure.Mongo.Repositories;
+using DotNetEnv;
+using Microsoft.OpenApi.Models;
+
+// Load .env file for secrets (must be at the very top before anything else)
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Load .env file for secrets
-Env.Load();
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -86,7 +87,33 @@ builder.Services.AddScoped<IMonthlyBudgetRepository, MonthlyBudgetRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "DailyExpenseManager API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: 'Authorization: Bearer {token}'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 var app = builder.Build();
 

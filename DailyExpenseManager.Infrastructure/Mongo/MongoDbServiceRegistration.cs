@@ -14,6 +14,7 @@ public static class MongoDbServiceRegistration
             ConnectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING") ?? configuration["MONGODB_CONNECTION_STRING"]!,
             DatabaseName = Environment.GetEnvironmentVariable("MONGODB_DATABASE_NAME") ?? configuration["MONGODB_DATABASE_NAME"]!
         };
+        Console.WriteLine("Connection String : " + Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING"));
         services.AddSingleton(settings);
         services.AddSingleton<IMongoClient>(_ => new MongoClient(settings.ConnectionString));
         services.AddScoped(sp => sp.GetRequiredService<IMongoClient>().GetDatabase(settings.DatabaseName));

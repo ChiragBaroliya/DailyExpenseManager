@@ -1,13 +1,16 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using DailyExpenseManager.API.Models;
 using DailyExpenseManager.Application.Budget.Commands;
 using DailyExpenseManager.Application.Budget.Queries;
-using DailyExpenseManager.API.Models;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DailyExpenseManager.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Authorize]
 public class BudgetController : ControllerBase
 {
     private readonly IMediator _mediator;

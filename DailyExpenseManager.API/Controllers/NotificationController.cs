@@ -1,11 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using DailyExpenseManager.Application.Notifications;
 using DailyExpenseManager.API.Models;
+using DailyExpenseManager.Application.Notifications;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DailyExpenseManager.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/notification")]
+[ApiVersion("1.0")]
+[Authorize]
 public class NotificationController : ControllerBase
 {
     private readonly MonthlySummaryService _summaryService;

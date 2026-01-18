@@ -1,15 +1,18 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using DailyExpenseManager.Application.Expenses.Commands;
-using DailyExpenseManager.Application.Incomes.Commands;
 using DailyExpenseManager.API.Models;
+using DailyExpenseManager.Application.Expenses.Commands;
 using DailyExpenseManager.Application.Expenses.Queries;
+using DailyExpenseManager.Application.Incomes.Commands;
 using DailyExpenseManager.Infrastructure.Mongo.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DailyExpenseManager.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/finance")]
+[ApiVersion("1.0")]
+[Authorize]
 public class FinanceController : ControllerBase
 {
     private readonly IMediator _mediator;
