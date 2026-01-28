@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      MONGODB__CONNECTION__STRING: mongodb+srv://chiragsuccess07_db_user:FXvsVaNvmrJmhC4a@dailyexpensemanager-clu.vflono6.mongodb.net/?retryWrites=true&w=majority
+      MONGODB__DATABASE__NAME: dailyexpensemanager_dev
+      JWT__KEY: 2A7F9C1E-4B3D-4E2A-9B8C-7F1A6D5E3C2B
+      JWT__ISSUER: DailyExpenseManager
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7.0
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
